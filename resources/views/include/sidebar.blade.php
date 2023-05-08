@@ -12,6 +12,7 @@
     @php
         $segment1 = request()->segment(1);
         $segment2 = request()->segment(2);
+        $route  = Route::current()->getName();
     @endphp
 
     <div class="sidebar-content">
@@ -38,6 +39,49 @@
                         <a href="{{url('permission')}}" class="menu-item {{ ($segment1 == 'permission') ? 'active' : '' }}">{{ __('Permission')}}</a>
                         @endcan
                     </div>
+                </div>
+
+                <div class="nav-item {{ ($route == 'settings') ? 'active open' : '' }} has-sub">
+                    <a href="javascript:void(0)" class="menu-item {{ ( $route == 'settings' ) ? 'active' : '' }}"><i class="fa fa-cog"></i>{{ __('Settings')}}</a>
+                        <div class="submenu-content">
+                            @can('manage_owner')
+                                <a href="{{route('settings')}}" class="menu-item {{ ( $route == 'settings') ? 'active' : '' }}">{{ __('Site Settings')}}</a>
+                            @endcan
+                        </div>
+                </div>
+
+
+
+                <div class="nav-item {{ ($route == 'menu.index' || $route == 'menu.create' || $route == 'menu.edit' ||$route == 'menu.show' || $route == 'settings') ? 'active open' : '' }} has-sub">
+
+                    <a href="#" class="menu-item"><i class="fa fa-cog"></i>{{ __('Settings')}}</a>
+
+                    <div class="submenu-content">
+                        @can('manage_user')
+                            <a href="{{route('settings')}}" class="menu-item {{ ( $route == 'settings') ? 'active' : '' }}">{{ __('Site Settings')}}</a>
+                        @endcan
+
+                    </div>
+
+                    <div class="submenu-content">
+                        <div class="nav-item has-sub {{ ( $route == 'menu.index' || $route == 'menu.create' || $route == 'menu.edit' ||$route == 'menu.show') ? 'open ' : '' }}">
+
+                            <a href="#" class="menu-item {{ ( $route == 'menu.index' || $route == 'menu.create' || $route == 'menu.edit' || $route == 'menu.show') ? 'active' : '' }}">{{ __('Menu')}}</a>
+
+                            <div class="submenu-content">
+                                @can('manage_user')
+                                    <a href="{{route('menu.index')}}" class="menu-item {{ ( $route == 'menu.index' || $route == 'menu.show') ? 'active' : '' }}">{{ __('Menus')}}</a>
+                                @endcan
+
+                                @can('manage_user')
+                                    <a href="{{ route('menu.create') }}" class="menu-item {{ ( $route == 'menu.create' ) ? 'active' : '' }} ">{{ __('Menu Create')}}</a>
+                                @endcan
+                            </div>
+                        </div>
+
+
+                    </div>
+
                 </div>
 
         </div>

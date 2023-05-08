@@ -9,6 +9,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\BackEnd\SettingController;
+use App\Http\Controllers\BackEnd\MenuController;
+use App\Http\Controllers\BackEnd\SubMenuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,6 +81,18 @@ Route::group(['middleware' => 'auth'], function(){
 
 	// get permissions
 	Route::get('get-role-permissions-badge', [PermissionController::class,'getPermissionBadgeByRole']);
+
+    //settings
+    Route::get('settings', [SettingController::class, 'Settings'])->name('settings');
+    Route::post('settings-store', [SettingController::class, 'SettingStore'])->name('settings-store');
+
+    //menu
+    Route::resource('menu', MenuController::class);
+    Route::get('menu-status', [MenuController::class, "StatusChange"])->name('menu-status');
+
+    //sub menu
+    Route::resource('sub-menu', SubMenuController::class);
+    Route::get('sub-menu-status', [SubMenuController::class, "StatusChange"])->name('sub-menu-status');
 
 });
 
