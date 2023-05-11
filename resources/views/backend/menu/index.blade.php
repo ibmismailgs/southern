@@ -21,10 +21,11 @@
                 <div class="col-lg-4">
                     @can('manage_user')
                         <div class="page-title-actions float-right">
-                            <a title="Create" href="{{ route('menu.create') }}" type="button" class="btn btn-sm btn-success">
+                            <a title="Create" href="#" type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addMenu">
                                 <i class="fas fa-plus mr-1"></i>
                                 Create
                             </a>
+
                         </div>
                     @endcan
                 </div>
@@ -55,12 +56,196 @@
             </div>
     </div>
 
-@push('script')
-<script src="{{ asset('plugins/DataTables/datatables.min.js') }}"></script>
-<script src="{{ asset('plugins/jquery-toast-plugin/dist/jquery.toast.min.js')}}"></script>
-<script src="{{ asset('js/alerts.js')}}"></script>
-<script src="{{ asset('plugins/sweetalert/dist/sweetalert.min.js') }}"></script>
-<script>
+    {{-- add modal --}}
+     <div class="modal fade" id="addMenu" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="demoModalLabel">{{ __('Create Menu')}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="forms-sample add-menu" enctype="multipart/form-data" action="#" method="POST">
+                            @csrf
+                            <div class="form-group row">
+                                <label for="title" class="col-sm-2 col-form-label">Title<span class="text-red">*</span></label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" name="title" id="title" value="{{ old('title') }}" class="form-control @error('title') is-invalid @enderror" placeholder="Enter title" required>
+
+                                    @error('title')
+                                    <span class="text-danger" role="alert">
+                                        <p>{{ $message }}</p>
+                                    </span>
+                                    @enderror
+
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="title" class="col-sm-2 col-form-label">Status<span class="text-red">*</span></label>
+                                <div class="col-sm-10">
+                                    <select name="status" id="status" class="form-control  @error('status') is-invalid @enderror">
+                                        <option value="1" @if (old('status') == "1") {{ 'selected' }} @endif>Active</option>
+                                        <option value="0" @if (old('status') == "0") {{ 'selected' }} @endif>Inactive</option>
+                                    </select>
+
+                                    @error('status')
+                                    <span class="text-danger" role="alert">
+                                        <p>{{ $message }}</p>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('Close')}}</button>
+                        <button type="button" id="save" class="btn btn-primary">{{ __('Create')}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {{-- edit modal --}}
+     <div class="modal fade" id="editMenu" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="demoModalLabel">{{ __('Edit Menu')}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="edit-menu" action="#">
+                            @csrf
+                            @method('PUT')
+                            <div class="form-group row">
+                                <label for="title" class="col-sm-2 col-form-label">Title<span class="text-red">*</span></label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" name="title" id="editTitle" value="{{ old('title') }}" class="form-control @error('title') is-invalid @enderror" placeholder="Enter title" required>
+
+                                    <input type="hidden" id="editId">
+
+                                    @error('title')
+                                    <span class="text-danger" role="alert">
+                                        <p>{{ $message }}</p>
+                                    </span>
+                                    @enderror
+
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="title" class="col-sm-2 col-form-label">Status<span class="text-red">*</span></label>
+                                <div class="col-sm-10">
+                                    <select name="status" id="editStatus" class="form-control  @error('status') is-invalid @enderror">
+                                        <option value="1" @if (old('status') == "1") {{ 'selected' }} @endif>Active</option>
+                                        <option value="0" @if (old('status') == "0") {{ 'selected' }} @endif>Inactive</option>
+                                    </select>
+
+                                    @error('status')
+                                    <span class="text-danger" role="alert">
+                                        <p>{{ $message }}</p>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('Close')}}</button>
+                        <button type="button" id="update" class="btn btn-primary">{{ __('Update')}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    @push('script')
+    <script src="{{ asset('plugins/DataTables/datatables.min.js') }}"></script>
+    <script src="{{ asset('plugins/jquery-toast-plugin/dist/jquery.toast.min.js')}}"></script>
+    <script src="{{ asset('js/alerts.js')}}"></script>
+    <script src="{{ asset('plugins/sweetalert/dist/sweetalert.min.js') }}"></script>
+    <script>
+
+    // add menu
+         $(document).ready(function($){
+             $('#save').on('click',function (event) {
+                event.preventDefault();
+
+                var url = "{{ route('menu.store') }}";
+                var title = $('#title').val();
+                var status = $('#status').val();
+
+                $.ajax({
+                    url: url,
+                    type: "get",
+                    data: {
+                        title : title,
+                        status : status,
+                    },
+                    success: function(data) {
+                        if (data.success === true) {
+                            showSuccessToast(data.message);
+                            $('#data_table').DataTable().ajax.reload();
+                            $('#add-menu').trigger('clear');
+                            $('#add-menu')[0].reset();
+                        }else{
+                            showDangerToast(data.message);
+                            $('#addMenu').modal('show');
+                        }
+                    },
+
+                });
+                $.noConflict();
+                $('#addMenu').modal('hide');
+            });
+        });
+
+        //edit menu
+        $('#data_table').on('click', '#edit[href]', function (e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function(resp) {
+                    $('#editTitle').val(resp.title);
+                    $('#editStatus').val(resp.status);
+                    $('#editId').val(resp.id);
+                }
+            });
+        });
+
+        $('#update').on('click',function (event) {
+                event.preventDefault();
+                var id = $('#editId').val();
+                var title = $('#editTitle').val();
+                var status = $('#editStatus').val();
+
+                var url = '{{ route("menu.update",":id") }}';
+
+                $.ajax({
+                url: url.replace(':id', id),
+                'type':'GET',
+                'data':{
+                    title:title,
+                    status:status,
+                },
+                success:function(data)
+                {
+                    if (data.success === true) {
+                        showSuccessToast(data.message);
+                        $('#data_table').DataTable().ajax.reload();
+                        $('#editMenu').modal('hide');
+                    }else{
+                        showDangerToast(data.message);
+                        $('#editMenu').modal('show');
+                    }
+                }
+            });
+
+            });
+
     $(document).ready( function () {
     var dTable = $('#data_table').DataTable({
         order: [],
@@ -83,7 +268,7 @@
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: true},
             {data: 'title', name: 'title' , searchable: true},
-            {data: 'status', name: 'title', searchable: false},
+            {data: 'status', name: 'status', searchable: false},
             {data: 'action', searchable: false, orderable: false}
         ],
         dom: "<'row'<'col-sm-2'l><'col-sm-7 text-center'B><'col-sm-3'f>>tipr",

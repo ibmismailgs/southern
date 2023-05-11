@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Backend;
+namespace App\Http\Controllers\BackEnd;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -8,22 +8,17 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\BackEnd\Menu;
+use Illuminate\Support\Facades\Validator;
 
 class MenuController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         try {
             if ($request->ajax()) {
                 $data = DB::table('menus')
                     ->whereNull('deleted_at')
-                    ->orderByDesc('id')
-                    ->get();
+                    ->orderByDesc('id');
 
                 return Datatables::of($data)
 
@@ -52,22 +47,16 @@ class MenuController extends Controller
 
                         $button = '';
 
-                        $show = '<li><a class="dropdown-item" href="' . route('menu.show', $data->id) . ' " ><i class="ik ik-eye f-16 text-blue"></i> Details</a></li>';
+                        $edit = '<a id="edit" href="' . route('menu.edit', $data->id) . ' " class="btn btn-sm btn-primary edit  mr-5" title="Edit" data-toggle="modal" data-target="#editMenu"><i class="fa fa-edit"></i></a>';
 
-                        $edit = '<li><a class="dropdown-item" id="edit" href="' . route('menu.edit', $data->id) . ' " title="Edit"><i class="ik ik-edit f-16 text-green"></i> Edit</a></li>';
-
-                        $delete = '<li><a class="dropdown-item" id="delete" href="' . route('menu.destroy', $data->id) . ' " title="Delete"><i class="ik ik-trash-2 f-16 text-red"></i> Delete</a></li>';
+                        $delete = '<a id="delete" href="' . route('menu.destroy', $data->id) . ' " title="Delete" class="btn btn-sm btn-danger btn-delete"><i class="fa fa-trash-alt"></i></a>';
 
 
                         if(Auth::user()->can('manage_user')){
-                            $button =  $show . $edit . $delete;
+                            $button =  $edit . $delete;
                         }
 
-                        return '<div class="btn-group open">
-                            <a class="badge badge-primary dropdown-toggle" href="#" role="button"  data-toggle="dropdown">Actions<i class="ik ik-chevron-down mr-0 align-middle"></i></a>
-                            <ul class="dropdown-menu" role="menu" style="width:auto; min-width:auto;">'.$button.'
-                        </ul>
-                        </div>';
+                        return $button;
                     })
 
                     ->addIndexColumn()
@@ -79,12 +68,6 @@ class MenuController extends Controller
             return redirect()->back()->with('error', $exception->getMessage());
         }
     }
-
-    public function create()
-    {
-        return view('backend.menu.create');
-    }
-
 
     /**
      * Show the form for creating a new resource.
@@ -100,26 +83,39 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-        $messages = array(
-            'title.required'  => 'Enter menu title',
-        );
+        if ($request->ajax()) {
 
-        $this->validate($request, array(
-            'title' => 'required|string|unique:menus,title,NULL,id,deleted_at,NULL',
-        ), $messages);
+            $data = Validator::make($request->all(), [
+                'title' => 'required|string|unique:menus,title,NULL,id,deleted_at,NULL',
+            ]);
 
-        try {
-            $data = new Menu();
-            $data->title = $request->title;
-            $data->status = $request->status;
-            $data->created_by = Auth::user()->id;
-            $data->save();
+            if ($data->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $data->errors()->all(),
+                ]);
+            }
 
-            return redirect()->route('menu.index')
-                ->with('success', 'Menu created successfully');
-        } catch (\Exception $exception) {
-            return redirect()->back()->with('error', $exception->getMessage());
+            try {
+                $data = new Menu();
+                $data->title = $request->title;
+                $data->status = $request->status;
+                $data->created_by = Auth::user()->id;
+                $data->save();
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Menu created successfully',
+                ]);
+
+            } catch (\Exception $exception) {
+                return response()->json([
+                    'success' => true,
+                    'message' => $exception->getMessage(),
+                ]);
+            }
         }
+
     }
 
     /**
@@ -136,16 +132,11 @@ class MenuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        $data = Menu::findOrFail($id);
-        return view('backend.menu.show', compact('data'));
-    }
 
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $data = Menu::findOrFail($id);
-        return view('backend.menu.edit', compact('data'));
+        return response()->json($data);
     }
 
     /**
@@ -157,27 +148,38 @@ class MenuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $messages = array(
-            'title.required'  => 'Enter menu title',
-        );
-
-        $this->validate($request, array(
+        $data = Validator::make($request->all(), [
             'title' => 'required|string|unique:menus,title,' . $id . ',id,deleted_at,NULL',
-        ), $messages);
+        ]);
+
+        if ($data->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $data->errors()->all(),
+            ]);
+        }
 
         try {
             $data = Menu::findOrFail($id);
             $data->title = $request->title;
             $data->status = $request->status;
-            $data->updated_by = Auth::user()->id;
+            $data->created_by = Auth::user()->id;
             $data->update();
 
-            return redirect()->route('menu.index')
-                ->with('success', 'Menu updated successfully');
+            return response()->json([
+                'success' => true,
+                'message' => 'Menu updated successfully',
+            ]);
+
         } catch (\Exception $exception) {
-            return redirect()->back()->with('error', $exception->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ]);
         }
+
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -220,3 +222,4 @@ class MenuController extends Controller
         }
     }
 }
+
