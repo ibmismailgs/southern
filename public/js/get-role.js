@@ -1,6 +1,4 @@
 (function($) {
-'use strict';    
-    // role wise permissiom ajax script
     $(document).on('change', '#role', function(){
         var token = $('#token').val();
         $.ajax({
@@ -14,11 +12,7 @@
             {
                 $('#permission').html(res);
             },
-            error: function()
-            {
-                alert('failed...');
 
-            }
         });
     });
 

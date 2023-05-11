@@ -1,11 +1,11 @@
 (function($) {
-'use strict';
+
     // Roles data table
     $(document).ready(function()
     {
         var searchable = [];
-        var selectable = []; 
-        
+        var selectable = [];
+
 
         var dTable = $('#roles_table').DataTable({
 
@@ -135,8 +135,8 @@
     {
 
         var searchable = [];
-        var selectable = []; 
-        
+        var selectable = [];
+
 
         var dTable = $('#user_table').DataTable({
 

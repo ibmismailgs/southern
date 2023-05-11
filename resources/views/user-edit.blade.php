@@ -1,4 +1,4 @@
-@extends('layouts.main') 
+@extends('layouts.main')
 @section('title', $user->name)
 @section('content')
     <!-- push external head elements to head -->
@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="{{ asset('plugins/select2/dist/css/select2.min.css') }}">
     @endpush
 
-    
+
     <div class="container-fluid">
     	<div class="page-header">
             <div class="row align-items-end">
@@ -14,27 +14,17 @@
                     <div class="page-header-title">
                         <i class="ik ik-user-plus bg-blue"></i>
                         <div class="d-inline">
-                            <h5>{{ __('Edit User')}}</h5>
-                            <span>{{ __('Create new user, assign roles & permissions')}}</span>
+                            <h5 class="pt-10">{{ __('Edit User')}}</h5>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <nav class="breadcrumb-container" aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="{{url('/')}}"><i class="ik ik-home"></i></a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a href="#">{{ __('User')}}</a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <!-- clean unescaped data is to avoid potential XSS risk -->
-                                {{ clean($user->name, 'titles')}}
-                            </li>
-
-                        </ol>
-                    </nav>
+                    <div class="page-title-actions float-right">
+                        <a title="Back Button" href="{{ url()->previous() }}" type="button" class="btn btn-sm btn-dark">
+                            <i class="fas fa-arrow-left mr-1"></i>
+                            Back
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -74,7 +64,7 @@
                                         @enderror
                                     </div>
 
-                                   
+
                                     <div class="form-group">
                                         <label for="password">{{ __('Password')}}</label>
                                         <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password"  >
@@ -91,11 +81,11 @@
                                         <input id="password-confirm" type="password" class="form-control" name="password_confirmation">
                                         <div class="help-block with-errors"></div>
                                     </div>
-                                    
-                                    
-                                    
-                                    
-                                
+
+
+
+
+
                                 </div>
                                 <div class="col-md-6">
                                     <!-- Assign role & view role permisions -->
@@ -106,7 +96,7 @@
                                     <div class="form-group">
                                         <label for="role">{{ __('Permissions')}}</label>
                                         <div id="permission" class="form-group">
-                                            @foreach($user->getAllPermissions() as $key => $permission) 
+                                            @foreach($user->getAllPermissions() as $key => $permission)
                                             <span class="badge badge-dark m-1">
                                                 <!-- clean unescaped data is to avoid potential XSS risk -->
                                                 {{ clean($permission->name, 'titles')}}
@@ -122,7 +112,7 @@
                                     </div>
                                 </div>
                             </div>
-                        
+
                         </form>
                     </div>
                 </div>
@@ -130,7 +120,7 @@
         </div>
     </div>
     <!-- push external js -->
-    @push('script') 
+    @push('script')
         <script src="{{ asset('plugins/select2/dist/js/select2.min.js') }}"></script>
         <!--get role wise permissiom ajax script-->
         <script src="{{ asset('js/get-role.js') }}"></script>

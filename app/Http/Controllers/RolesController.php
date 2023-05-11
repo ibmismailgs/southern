@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RoleRequest;
-use Auth;
 use DataTables;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Spatie\Permission\Models\Permission;
+use App\Http\Requests\RoleRequest;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Validator;
 
 class RolesController extends Controller
 {
@@ -26,6 +27,9 @@ class RolesController extends Controller
      * Show the roles page
      *
      */
+    // public function roleStoreIII(){
+    //     dd("df");
+    // }
     public function index()
     {
         try {
@@ -67,7 +71,7 @@ class RolesController extends Controller
                     }
                     if (Auth::user()->can('manage_roles')) {
                         return '<div class="table-actions">
-                                    <a href="'.url('role/edit/'.$data->id).'" ><i class="ik ik-edit-2 f-16 mr-15 text-green"></i></a>
+                                    <a href="'.url('role/edit/'.$data->id).'" ><i class="ik ik-edit f-16 text-green"></i></a>
                                     <a href="'.url('role/delete/'.$data->id).'"  ><i class="ik ik-trash-2 f-16 text-red"></i></a>
                                 </div>';
                     } else {
@@ -78,16 +82,31 @@ class RolesController extends Controller
                 ->make(true);
     }
 
+    public function create(){
+        $permissionGroups= DB::table('permissions')
+                    ->select('group_name')
+                    ->groupBy('group_name')
+                    ->get();
+
+        return view('role_create', compact('permissionGroups'));
+    }
+
+    public static function getPermissionByGroupName($groupName){
+        $permissions= Permission::where('group_name', $groupName)->get(); //->pluck('name', 'id');
+
+        return $permissions;
+    }
+
     /**
      * Store new roles with assigned permission
      * Associate permissions will be stored in table
      */
 
-    public function create(RoleRequest $request)
+    public function store(Request $request) //RoleRequest $request
     {
-        if ($validator->fails()) {
-            return redirect()->back()->withInput()->with('error', $validator->messages()->first());
-        }
+        // if ($validator->fails()) {
+        //     return redirect()->back()->withInput()->with('error', $validator->messages()->first());
+        // }
 
         try {
             $role = Role::create(['name' => $request->role]);
@@ -107,6 +126,11 @@ class RolesController extends Controller
 
     public function edit($id)
     {
+        $permissionGroups= DB::table('permissions')
+                    ->select('group_name')
+                    ->groupBy('group_name')
+                    ->get();
+
         $role = Role::where('id', $id)->first();
         // if role exist
         if ($role) {
@@ -114,7 +138,7 @@ class RolesController extends Controller
 
             $permissions = Permission::pluck('name', 'id');
 
-            return view('edit-roles', compact('role', 'role_permission', 'permissions'));
+            return view('edit-roles', compact('role', 'role_permission', 'permissions', 'permissionGroups'));
         } else {
             return redirect('404');
         }
@@ -122,17 +146,17 @@ class RolesController extends Controller
 
     public function update(Request $request)
     {
-        
+
 
         // update role
-        $validator = Validator::make($request->all(), [
-            'role' => 'required',
-            'id' => 'required',
-        ]);
-        
-        if ($validator->fails()) {
-            return redirect()->back()->withInput()->with('error', $validator->messages()->first());
-        }
+        // $validator = Validator::make($request->all(), [
+        //     'role' => 'required',
+        //     'id' => 'required',
+        // ]);
+
+        // if ($validator->fails()) {
+        //     return redirect()->back()->withInput()->with('error', $validator->messages()->first());
+        // }
 
         try {
             $role = Role::find($request->id);

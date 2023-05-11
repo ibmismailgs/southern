@@ -54,7 +54,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('/user/get-list', [UserController::class,'getUserList']);
 		Route::get('/user/create', [UserController::class,'create']);
 		Route::post('/user/create', [UserController::class,'store'])->name('create-user');
-		Route::get('/user/{id}', [UserController::class,'edit']);
+		Route::get('/user/{id}', [UserController::class,'edit'])->name('edit-user');
 		Route::post('/user/update', [UserController::class,'update']);
 		Route::get('/user/delete/{id}', [UserController::class,'delete']);
 	});
@@ -63,8 +63,9 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::group(['middleware' => 'can:manage_role|manage_user'], function(){
 		Route::get('/roles', [RolesController::class,'index']);
 		Route::get('/role/get-list', [RolesController::class,'getRoleList']);
-		Route::post('/role/create', [RolesController::class,'create']);
-		Route::get('/role/edit/{id}', [RolesController::class,'edit']);
+		Route::get('/role/create', [RolesController::class,'create'])->name('role.create');
+        Route::post('/role/store', [RolesController::class,'store'])->name('role-store');
+		Route::get('/role/edit/{id}', [RolesController::class,'edit'])->name('role-edit');
 		Route::post('/role/update', [RolesController::class,'update']);
 		Route::get('/role/delete/{id}', [RolesController::class,'delete']);
 	});

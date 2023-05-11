@@ -1,4 +1,4 @@
-@extends('layouts.main') 
+@extends('layouts.main')
 @section('title', 'Add User')
 @section('content')
     <!-- push external head elements to head -->
@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="{{ asset('plugins/select2/dist/css/select2.min.css') }}">
     @endpush
 
-    
+
     <div class="container-fluid">
     	<div class="page-header">
             <div class="row align-items-end">
@@ -14,22 +14,17 @@
                     <div class="page-header-title">
                         <i class="ik ik-user-plus bg-blue"></i>
                         <div class="d-inline">
-                            <h5>{{ __('Add User')}}</h5>
-                            <span>{{ __('Create new user, assign roles & permissions')}}</span>
+                            <h5 class="pt-10">{{ __('Add User')}}</h5>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <nav class="breadcrumb-container" aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="{{url('dashboard')}}"><i class="ik ik-home"></i></a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a href="#">{{ __('Add User')}}</a>
-                            </li>
-                        </ol>
-                    </nav>
+                    <div class="page-title-actions float-right">
+                        <a title="Back Button" href="{{ url()->previous() }}" type="button" class="btn btn-sm btn-dark">
+                            <i class="fas fa-arrow-left mr-1"></i>
+                            Back
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -39,9 +34,6 @@
             <!-- end message area-->
             <div class="col-md-12">
                 <div class="card ">
-                    <div class="card-header">
-                        <h3>{{ __('Add user')}}</h3>
-                    </div>
                     <div class="card-body">
                         <form class="forms-sample" method="POST" action="{{ route('create-user') }}" >
                         @csrf
@@ -70,7 +62,7 @@
                                             </span>
                                         @enderror
                                     </div>
-                                   
+
                                     <div class="form-group">
                                         <label for="password">{{ __('Password')}}<span class="text-red">*</span></label>
                                         <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Enter password" required>
@@ -87,11 +79,11 @@
                                         <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="Retype password" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
-                                    
-                                    
-                                    
-                                    
-                                
+
+
+
+
+
                                 </div>
                                 <div class="col-md-6">
                                     <!-- Assign role & view role permisions -->
@@ -113,7 +105,7 @@
                                     </div>
                                 </div>
                             </div>
-                        
+
                         </form>
                     </div>
                 </div>
@@ -121,7 +113,7 @@
         </div>
     </div>
     <!-- push external js -->
-    @push('script') 
+    @push('script')
         <script src="{{ asset('plugins/select2/dist/js/select2.min.js') }}"></script>
          <!--get role wise permissiom ajax script-->
         <script src="{{ asset('js/get-role.js') }}"></script>
