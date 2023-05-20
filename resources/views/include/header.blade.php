@@ -19,7 +19,14 @@
                     <i class="ik ik-battery-charging"></i>
                 </a>
                 </button> &nbsp;&nbsp;
-                <button type="button" id="navbar-fullscreen" class="nav-link"><i class="ik ik-maximize"></i></button>
+                <button type="button" id="navbar-fullscreen" class="nav-link"><i class="ik ik-maximize"></i></button>&nbsp;&nbsp;
+
+                <button class="nav-link" title="Home">
+                    <a target="_blank"  href="{{ route ('home')}}">
+                    <i class="ik ik-home"></i>
+                </a>
+                </button>
+
             </div>
             <div class="top-menu d-flex align-items-center">
                 {{ Auth::user()->name }}
