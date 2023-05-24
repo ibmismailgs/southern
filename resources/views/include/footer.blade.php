@@ -1,14 +1,20 @@
+<?php
+    $setting = App\Models\BackEnd\Setting::first();
+?>
+
 <footer class="footer">
     <div class="w-100 clearfix">
         <span class="text-center text-sm-left d-md-inline-block">
-        	v3.1.0 {{ __('Copyright © '.date("Y"))}} <a href="https://arthemic.com">Arthemic</a> 
-        	<i class="fa fa-heart text-danger"></i> 
+            @if (empty($setting))
+            @else
+        	    {{ __('©' . date("Y"))}} <a href="{{ isset($setting) ? $setting->website : ''}}" class="text-primary">{{ isset($setting) ? $setting->name : ''}}, </a>All Rights Reserved
+            @endif
         </span>
         <span class="float-none float-sm-right mt-1 mt-sm-0 text-center">
-        	{{ __('Developed by')}} 
-        	<a href="https://rakibul.dev" class="text-dark" target="_blank">
-        		{{ __('Md. Rakibul Islam')}}
-        	</a>
+            @if (empty($setting))
+            @else
+                Email: <b class="text-primary">{{ isset($setting) ? $setting->email : ''}}, </b> Phone: <b class="text-primary">{{ isset($setting) ? $setting->phone : ''}}</b>
+            @endif
         </span>
     </div>
 </footer>

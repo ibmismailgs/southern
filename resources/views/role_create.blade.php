@@ -11,7 +11,6 @@
         </style>
     @endpush
 
-
     <div class="container-fluid">
     	<div class="page-header">
             <div class="row align-items-end">
@@ -19,7 +18,7 @@
                     <div class="page-header-title">
                         <i class="ik ik-award bg-blue"></i>
                         <div class="d-inline">
-                            <h5 class="pt-10">{{ __('Roles')}}</h5>
+                            <h5 class="pt-10">{{ __('Add Roles')}}</h5>
                         </div>
                     </div>
                 </div>
@@ -42,14 +41,13 @@
 			<div class="col-md-12">
 	            <div class="card">
 	                <div class="card-body">
-	                    <form class="forms-sample" method="POST" action="{{url('role/update')}}" {{-- action="{{url('role/store')}}" --}}>
+	                    <form class="forms-sample" method="POST" action="{{ route('role-store') }}"
 	                    	@csrf
 	                        <div class="row">
 	                            <div class="col-sm-12">
 	                                <div class="form-group">
 	                                    <label for="role">{{ __('Role')}}<span class="text-red">*</span></label>
-	                                    <input type="text" class="form-control is-valid" id="role" name="role" value="{{ $role->name }}" placeholder="Role Name" required>
-                                        <input type="hidden" name="id" value="{{$role->id}}" required>
+	                                    <input type="text" class="form-control is-valid" id="role" name="role" placeholder="Role Name" required>
 	                                </div>
 	                            </div>
 	                            <div class="col-sm-12 mt-4">
@@ -79,10 +77,7 @@
                                                 <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label class="custom-control custom-checkbox">
-                                                            <input type="checkbox" class="custom-control-input permissions-{{ $permissionGroup->group_name }}" id="item_checkbox" name="permissions[]" value="{{$permission->name}}"
-                                                                @if(in_array($permission->id, $role_permission))
-                                                                    checked
-                                                                @endif>
+                                                            <input type="checkbox" class="custom-control-input permissions-{{ $permissionGroup->group_name }}" id="item_checkbox" name="permissions[]" value="{{$permission->name}}">
                                                             <span class="custom-control-label">
                                                                 <!-- clean unescaped data is to avoid potential XSS risk -->
                                                                 {{-- {{ clean($permission,'titles')}} --}}
@@ -96,7 +91,7 @@
                                     @endforeach
 
 	                                <div class="form-group">
-	                                	<button type="submit" class="btn btn-primary">{{ __('Update')}}</button>
+	                                	<button type="submit" class="btn btn-primary">{{ __('Save')}}</button>
 	                                </div>
 	                            </div>
 	                        </div>

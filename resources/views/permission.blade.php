@@ -1,4 +1,4 @@
-@extends('layouts.main') 
+@extends('layouts.main')
 @section('title', 'Permission')
 @section('content')
     <!-- push external head elements to head -->
@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="{{ asset('plugins/select2/dist/css/select2.min.css') }}">
     @endpush
 
-    
+
     <div class="container-fluid">
     	<div class="page-header">
             <div class="row align-items-end">
@@ -15,22 +15,17 @@
                     <div class="page-header-title">
                         <i class="ik ik-unlock bg-blue"></i>
                         <div class="d-inline">
-                            <h5>{{ __('Permissions')}}</h5>
-                            <span>{{ __('Define permissions of user')}}</span>
+                            <h5 class="pt-10">{{ __('Permissions')}}</h5>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <nav class="breadcrumb-container" aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="../index.html"><i class="ik ik-home"></i></a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a href="#">{{ __('Permissions')}}</a>
-                            </li>
-                        </ol>
-                    </nav>
+                    <div class="page-title-actions float-right">
+                        <a title="Back Button" href="{{ url()->previous() }}" type="button" class="btn btn-sm btn-dark">
+                            <i class="fas fa-arrow-left mr-1"></i>
+                            Back
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -42,7 +37,6 @@
             @can('manage_permission')
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header"><h3>{{ __('Add Permission')}}</h3></div>
                     <div class="card-body">
                         <form class="forms-sample" method="POST" action="{{url('permission/create')}}">
                             @csrf
@@ -50,21 +44,27 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="permission">{{ __('Permission')}}<span class="text-red">*</span></label>
-                                        <input type="text" class="form-control" id="permission" name="permission" placeholder="Permission Name" required>
+                                        <input type="text" class="form-control" id="permission" name="name" placeholder="Permission Name" required>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="permission">{{ __('Group Name')}}<span class="text-red">*</span></label>
+                                        <input type="text" class="form-control" id="permission" name="group_name" placeholder="Group Name" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail3">{{ __('Assigned to Role')}} </label>
                                         {!! Form::select('roles[]', $roles, null,[ 'class'=>'form-control select2', 'multiple' => 'multiple']) !!}
                                     </div>
                                 </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary btn-rounded">{{ __('Save')}}</button>
+                            </div>
+                                <div class="row mt-6">
+                                    <div class="col-sm-12 ">
+                                        <button type="submit" class="btn form-bg-primary mr-2">Save</button>
                                     </div>
                                 </div>
-                            </div>
                         </form>
                     </div>
                 </div>

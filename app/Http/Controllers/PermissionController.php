@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PermissionRequest;
-use Auth;
-use DataTables;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\PermissionRequest;
+use Spatie\Permission\Models\Permission;
+use Yajra\DataTables\Facades\DataTables;
 
 class PermissionController extends Controller
 {
@@ -75,10 +75,13 @@ class PermissionController extends Controller
      * Associate permissions will be stored in table
      */
 
-    public function create(PermissionRequest $request)
+    public function create(Request $request)
     {
         try {
-            $permission = Permission::create(['name' => $request->permission]);
+            $permission = Permission::create([
+                'name' => $request->name,
+                'group_name' => $request->group_name,
+        ]);
             $permission->syncRoles($request->roles);
 
             if ($permission) {
@@ -93,7 +96,7 @@ class PermissionController extends Controller
         }
     }
 
-  
+
 
     public function update(Request $request)
     {

@@ -9,6 +9,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\BackEnd\SettingController;
+use App\Http\Controllers\BackEnd\MenuController;
+use App\Http\Controllers\BackEnd\SubMenuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +56,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('/user/get-list', [UserController::class,'getUserList']);
 		Route::get('/user/create', [UserController::class,'create']);
 		Route::post('/user/create', [UserController::class,'store'])->name('create-user');
-		Route::get('/user/{id}', [UserController::class,'edit']);
+		Route::get('/user/{id}', [UserController::class,'edit'])->name('edit-user');
 		Route::post('/user/update', [UserController::class,'update']);
 		Route::get('/user/delete/{id}', [UserController::class,'delete']);
 	});
@@ -62,8 +65,9 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::group(['middleware' => 'can:manage_role|manage_user'], function(){
 		Route::get('/roles', [RolesController::class,'index']);
 		Route::get('/role/get-list', [RolesController::class,'getRoleList']);
-		Route::post('/role/create', [RolesController::class,'create']);
-		Route::get('/role/edit/{id}', [RolesController::class,'edit']);
+		Route::get('/role/create', [RolesController::class,'create'])->name('role.create');
+        Route::post('/role/store', [RolesController::class,'store'])->name('role-store');
+		Route::get('/role/edit/{id}', [RolesController::class,'edit'])->name('role-edit');
 		Route::post('/role/update', [RolesController::class,'update']);
 		Route::get('/role/delete/{id}', [RolesController::class,'delete']);
 	});
@@ -80,6 +84,26 @@ Route::group(['middleware' => 'auth'], function(){
 
 	// get permissions
 	Route::get('get-role-permissions-badge', [PermissionController::class,'getPermissionBadgeByRole']);
+
+    //settings
+    Route::get('settings', [SettingController::class, 'Settings'])->name('settings');
+    Route::post('settings-store', [SettingController::class, 'SettingStore'])->name('settings-store');
+
+    //menu
+    Route::get('menu', [MenuController::class, "index"])->name('menu.index');
+    Route::get('menu/create', [MenuController::class, "store"])->name('menu.store');
+    Route::get('menu/edit/{id}', [MenuController::class, "edit"])->name('menu.edit');
+    Route::get('menu/update/{id}', [MenuController::class, "update"])->name('menu.update');
+    Route::delete('menu/destory/{id}', [MenuController::class, "destroy"])->name('menu.destroy');
+    Route::get('menu-status', [MenuController::class, "StatusChange"])->name('menu-status');
+
+    //sub menu
+    Route::get('sub-menu', [SubMenuController::class, "index"])->name('sub-menu.index');
+    Route::get('sub-menu/create', [SubMenuController::class, "store"])->name('sub-menu.store');
+    Route::get('sub-menu/edit/{id}', [SubMenuController::class, "edit"])->name('sub-menu.edit');
+    Route::get('sub-menu/update/{id}', [SubMenuController::class, "update"])->name('sub-menu.update');
+    Route::delete('sub-menu/destory/{id}', [SubMenuController::class, "destroy"])->name('sub-menu.destroy');
+    Route::get('sub-menu-status', [SubMenuController::class, "StatusChange"])->name('sub-menu-status');
 
 });
 
