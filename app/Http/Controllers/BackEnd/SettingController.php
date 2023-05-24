@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\BackEnd;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\BackEnd\Setting;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class SettingController extends Controller
 {
@@ -57,6 +58,7 @@ class SettingController extends Controller
             $data->address = $request->address;
             $data->map = $request->map;
             $data->description = $request->description;
+            $data->created_by = Auth::user()->id;
 
             if (!$request->id) {
                 $data->save();

@@ -63,7 +63,10 @@
                                         </label>
                                     </div>
                                     <div class="col text-right">
-                                        <a class="btn text-danger" href="{{url('password/forget')}}">
+                                        {{-- <a class="btn text-danger" href="{{url('password/forget')}}">
+                                            {{ __('Forgot Password?') }}
+                                        </a> --}}
+                                        <a class="btn text-danger" href="#">
                                             {{ __('Forgot Password?') }}
                                         </a>
                                     </div>
@@ -72,7 +75,7 @@
                                     <button class="btn btn-custom">Sign In</button>
                                 </div>
                                 <div class="register">
-                                    <p>{{ __('No account?')}} <a href="{{url('register')}}">{{ __('Sign Up')}}</a></p>
+                                    {{-- <p>{{ __('No account?')}} <a href="{{url('register')}}">{{ __('Sign Up')}}</a></p> --}}
                                 </div>
 
                             </form>
