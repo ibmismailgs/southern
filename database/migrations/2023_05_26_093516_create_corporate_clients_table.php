@@ -22,7 +22,6 @@ class CreateCorporateClientsTable extends Migration
             $table->text('address');
             $table->text('logo');
             $table->tinyInteger('status')->default(1)->comment('1 = Active | 0 = Inactive');
-            $table->longText('description')->nullable();
             $table->tinyInteger('created_by')->nullable();
             $table->tinyInteger('updated_by')->nullable();
             $table->timestamps();

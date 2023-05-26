@@ -106,7 +106,7 @@
                                     <div class="form-group">
                                         <label for="address">Address<span class="text-red">*</span></label>
 
-                                        <textarea class="form-control html-editor @error('title') is-invalid @enderror" name="address" id="address" cols="10" rows="2" placeholder="Write address" required>{!! $data->address !!}</textarea>
+                                        <textarea class="form-control html-editor @error('address') is-invalid @enderror" name="address" id="address" cols="10" rows="2" placeholder="Write address" required>{!! $data->address !!}</textarea>
 
                                         @error('address')
                                         <span class="text-danger" role="alert">
@@ -129,7 +129,7 @@
 
                                         <div class="input-field">
 
-                                            <input data-height="220" type="file" class="dropify form-control @error('logo') is-invalid @enderror" id="logo" name="logo" title="Logo" data-default-file="{{ asset('img/clientlogo/'.$data->logo) }}" />
+                                            <input data-height="220" type="file" class="dropify form-control @error('logo') is-invalid @enderror" id="logo" name="logo" title="Logo" value="{{ $data->logo }}" data-default-file="{{ asset('img/clientlogo/'.$data->logo) }}" />
 
                                             <input type="hidden" name="current_logo" value="{{ $data->logo }}" />
                                         </div>

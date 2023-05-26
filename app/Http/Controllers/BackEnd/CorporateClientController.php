@@ -23,7 +23,7 @@ class CorporateClientController extends Controller
             if ($request->ajax()) {
                     $data = DB::table('corporate_clients')
                         ->whereNull('deleted_at')
-                        ->get();
+                        ->orderByDesc('id');
 
                 return Datatables::of($data)
 

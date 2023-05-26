@@ -11,6 +11,7 @@ use App\Http\Controllers\BackEnd\MenuController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\BackEnd\SettingController;
 use App\Http\Controllers\BackEnd\SubMenuController;
+use App\Http\Controllers\BackEnd\ServicesController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\BackEnd\CorporateClientController;
@@ -114,6 +115,10 @@ Route::group(['middleware' => 'auth'], function(){
     //corporate client
     Route::resource('corporate-client', CorporateClientController::class);
     Route::get('client-status', [CorporateClientController::class, "StatusChange"])->name('client-status');
+
+    //services
+    Route::resource('our-services', ServicesController::class);
+    Route::get('services-status', [ServicesController::class, "StatusChange"])->name('services-status');
 
 });
 

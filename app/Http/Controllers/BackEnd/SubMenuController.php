@@ -21,6 +21,7 @@ class SubMenuController extends Controller
                 $data = DB::table('sub_menus')
                     ->join('menus', 'sub_menus.menu_id', '=', 'menus.id')
                     ->select('sub_menus.*', 'menus.title')
+                    ->whereNull('menus.deleted_at')
                     ->whereNull('sub_menus.deleted_at')
                     ->orderByDesc('sub_menus.id');
 

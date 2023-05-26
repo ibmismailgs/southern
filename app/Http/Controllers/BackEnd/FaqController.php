@@ -23,7 +23,7 @@ class FaqController extends Controller
             if ($request->ajax()) {
                     $data = DB::table('faqs')
                         ->whereNull('deleted_at')
-                        ->get();
+                        ->orderByDesc('id');
 
                 return Datatables::of($data)
 

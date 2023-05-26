@@ -38,7 +38,7 @@
 
                         <div class="row">
                             <div class="col-md-12"> <strong>Title</strong>
-                                <p class="mt-10 text-muted">{{ $data->title ?? '--'}}</p>
+                                <p class="mt-10 text-muted">{{ $data->title ?? '--' }}</p>
                             </div>
 
                         </div>
