@@ -39,7 +39,7 @@
                                     <div class="form-group">
                                         <label for="title">Title<span class="text-red">*</span></label>
 
-                                        <textarea class="form-control @error('title') is-invalid @enderror" name="title" id="title" cols="10" rows="2">{!! $data->title !!}</textarea>
+                                        <textarea class="form-control @error('title') is-invalid @enderror" name="title" id="title" cols="10" rows="2" required>{!! $data->title !!}</textarea>
 
                                         @error('title')
                                         <span class="text-danger" role="alert">
@@ -54,7 +54,7 @@
                                     <div class="form-group">
                                         <label for="description">Description<span class="text-red">*</span></label>
 
-                                        <textarea class="form-control html-editor @error('description') is-invalid @enderror" name="description" id="description" cols="20" rows="7">{!! $data->description !!}</textarea>
+                                        <textarea class="form-control html-editor @error('description') is-invalid @enderror" name="description" id="description" cols="20" rows="7" required>{!! $data->description !!}</textarea>
 
                                         @error('description')
                                         <span class="text-danger" role="alert">
@@ -81,6 +81,14 @@
 
     </div>
 </div>
+@push('script')
 
+<script>
+    $('#description').summernote({
+            height: 100,
+        });
+</script>
+
+@endpush
 @endsection
 

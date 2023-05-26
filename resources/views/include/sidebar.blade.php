@@ -81,6 +81,22 @@
                         </div>
                 </div>
 
+                <div class="nav-item {{ ($route == 'corporate-client.index' || $route == 'corporate-client.create' || $route == 'corporate-client.edit' || $route == 'corporate-client.show') ? 'active open' : '' }} has-sub">
+
+                    <a href="javascript:void(0)" class="corporate-client-item {{ ( $route == 'corporate-client.index' || $route == 'corporate-client.create' || $route == 'corporate-client.edit' || $route == 'corporate-client.show') ? 'active' : '' }}"><i class="fa fa-users"></i>{{ __('Corporate Clients')}}</a>
+                        <div class="submenu-content">
+
+                            @can('manage_user')
+                                <a href="{{ route('corporate-client.index') }}" class="menu-item {{ ($route == 'corporate-client.index' || $route == 'corporate-client.edit' || $route == 'corporate-client.show') ? 'active' : '' }}">{{ __('Corporate List')}}</a>
+                            @endcan
+
+                            @can('manage_user')
+                                <a href="{{ route('corporate-client.create') }}" class="menu-item {{ ( $route == 'corporate-client.create') ? 'active' : '' }}">{{ __('Create Corporate')}}</a>
+                            @endcan
+
+                        </div>
+                </div>
+
         </div>
     </div>
 </div>

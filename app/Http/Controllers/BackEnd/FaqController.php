@@ -171,7 +171,6 @@ class FaqController extends Controller
             $data = Faq::findOrFail($id);
             $data->title = $request->title;
             $data->description = $request->description;
-            $data->status = 1;
             $data->created_by = Auth::user()->id;
             $data->update();
 

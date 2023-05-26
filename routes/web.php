@@ -13,6 +13,7 @@ use App\Http\Controllers\BackEnd\SettingController;
 use App\Http\Controllers\BackEnd\SubMenuController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\BackEnd\CorporateClientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -109,6 +110,10 @@ Route::group(['middleware' => 'auth'], function(){
     //faq
     Route::resource('faq', FaqController::class);
     Route::get('faq-status', [FaqController::class, "StatusChange"])->name('faq-status');
+
+    //corporate client
+    Route::resource('corporate-client', CorporateClientController::class);
+    Route::get('client-status', [CorporateClientController::class, "StatusChange"])->name('client-status');
 
 });
 
