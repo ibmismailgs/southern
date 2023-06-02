@@ -1,7 +1,7 @@
 /**
-* Template Name: Medilab
-* Updated: Mar 10 2023 with Bootstrap v5.2.3
-* Template URL: https://bootstrapmade.com/medilab-free-medical-bootstrap-theme/
+* Template Name: BizLand
+* Updated: May 30 2023 with Bootstrap v5.3.0
+* Template URL: https://bootstrapmade.com/bizland-bootstrap-business-template/
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
@@ -20,6 +20,94 @@
     }
   }
 
+//   client slider
+new Swiper('.clients-slider', {
+    speed: 200,
+    loop: true,
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false
+    },
+    slidesPerView: 'auto',
+    pagination: {
+      el: '.swiper-pagination',
+      type: 'bullets',
+      clickable: true
+    },
+    breakpoints: {
+      320: {
+        slidesPerView: 2,
+        spaceBetween: 40
+      },
+      480: {
+        slidesPerView: 3,
+        spaceBetween: 60
+      },
+      640: {
+        slidesPerView: 4,
+        spaceBetween: 80
+      },
+      992: {
+        slidesPerView: 6,
+        spaceBetween: 120
+      }
+    }
+  });
+
+  /**
+   * Init swiper slider with 1 slide at once in desktop view
+   */
+  new Swiper('.slides-1', {
+    speed: 600,
+    loop: true,
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false
+    },
+    slidesPerView: 'auto',
+    pagination: {
+      el: '.swiper-pagination',
+      type: 'bullets',
+      clickable: true
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    }
+  });
+
+  /**
+   * Init swiper slider with 3 slides at once in desktop view
+   */
+  new Swiper('.slides-3', {
+    speed: 600,
+    loop: true,
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false
+    },
+    slidesPerView: 'auto',
+    pagination: {
+      el: '.swiper-pagination',
+      type: 'bullets',
+      clickable: true
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    breakpoints: {
+      320: {
+        slidesPerView: 1,
+        spaceBetween: 40
+      },
+
+      1200: {
+        slidesPerView: 3,
+      }
+    }
+  });
+
   /**
    * Easy event listener function
    */
@@ -35,7 +123,7 @@
   }
 
   /**
-   * Easy on scroll event listener 
+   * Easy on scroll event listener
    */
   const onscroll = (el, listener) => {
     el.addEventListener('scroll', listener)
@@ -68,6 +156,10 @@
     let header = select('#header')
     let offset = header.offsetHeight
 
+    if (!header.classList.contains('header-scrolled')) {
+      offset -= 16
+    }
+
     let elementPos = select(el).offsetTop
     window.scrollTo({
       top: elementPos - offset,
@@ -76,26 +168,23 @@
   }
 
   /**
-   * Toggle .header-scrolled class to #header when page is scrolled
+   * Header fixed top on scroll
    */
   let selectHeader = select('#header')
-  let selectTopbar = select('#topbar')
   if (selectHeader) {
-    const headerScrolled = () => {
-      if (window.scrollY > 100) {
-        selectHeader.classList.add('header-scrolled')
-        if (selectTopbar) {
-          selectTopbar.classList.add('topbar-scrolled')
-        }
+    let headerOffset = selectHeader.offsetTop
+    let nextElement = selectHeader.nextElementSibling
+    const headerFixed = () => {
+      if ((headerOffset - window.scrollY) <= 0) {
+        selectHeader.classList.add('fixed-top')
+        nextElement.classList.add('scrolled-offset')
       } else {
-        selectHeader.classList.remove('header-scrolled')
-        if (selectTopbar) {
-          selectTopbar.classList.remove('topbar-scrolled')
-        }
+        selectHeader.classList.remove('fixed-top')
+        nextElement.classList.remove('scrolled-offset')
       }
     }
-    window.addEventListener('load', headerScrolled)
-    onscroll(document, headerScrolled)
+    window.addEventListener('load', headerFixed)
+    onscroll(document, headerFixed)
   }
 
   /**
@@ -173,18 +262,28 @@
   }
 
   /**
-   * Initiate glightbox 
+   * Initiate glightbox
    */
   const glightbox = GLightbox({
     selector: '.glightbox'
   });
 
   /**
-   * Initiate Gallery Lightbox 
+   * Skills animation
    */
-  const galelryLightbox = GLightbox({
-    selector: '.galelry-lightbox'
-  });
+  let skilsContent = select('.skills-content');
+  if (skilsContent) {
+    new Waypoint({
+      element: skilsContent,
+      offset: '80%',
+      handler: function(direction) {
+        let progress = select('.progress .progress-bar', true);
+        progress.forEach((el) => {
+          el.style.width = el.getAttribute('aria-valuenow') + '%'
+        });
+      }
+    })
+  }
 
   /**
    * Testimonials slider
@@ -193,7 +292,7 @@
     speed: 600,
     loop: true,
     autoplay: {
-      delay: 5000,
+      delay: 3000,
       disableOnInteraction: false
     },
     slidesPerView: 'auto',
@@ -201,22 +300,77 @@
       el: '.swiper-pagination',
       type: 'bullets',
       clickable: true
-    },
-    breakpoints: {
-      320: {
-        slidesPerView: 1,
-        spaceBetween: 20
-      },
-
-      1200: {
-        slidesPerView: 2,
-        spaceBetween: 20
-      }
     }
   });
 
   /**
-   * Initiate Pure Counter 
+   * Porfolio isotope and filter
+   */
+  window.addEventListener('load', () => {
+    let portfolioContainer = select('.portfolio-container');
+    if (portfolioContainer) {
+      let portfolioIsotope = new Isotope(portfolioContainer, {
+        itemSelector: '.portfolio-item'
+      });
+
+      let portfolioFilters = select('#portfolio-flters li', true);
+
+      on('click', '#portfolio-flters li', function(e) {
+        e.preventDefault();
+        portfolioFilters.forEach(function(el) {
+          el.classList.remove('filter-active');
+        });
+        this.classList.add('filter-active');
+
+        portfolioIsotope.arrange({
+          filter: this.getAttribute('data-filter')
+        });
+        portfolioIsotope.on('arrangeComplete', function() {
+          AOS.refresh()
+        });
+      }, true);
+    }
+
+  });
+
+  /**
+   * Initiate portfolio lightbox
+   */
+  const portfolioLightbox = GLightbox({
+    selector: '.portfolio-lightbox'
+  });
+
+  /**
+   * Portfolio details slider
+   */
+  new Swiper('.portfolio-details-slider', {
+    speed: 200,
+    loop: true,
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      type: 'bullets',
+      clickable: true
+    }
+  });
+
+  /**
+   * Animation on scroll
+   */
+  window.addEventListener('load', () => {
+    AOS.init({
+      duration: 1000,
+      easing: 'ease-in-out',
+      once: true,
+      mirror: false
+    })
+  });
+
+  /**
+   * Initiate Pure Counter
    */
   new PureCounter();
 
