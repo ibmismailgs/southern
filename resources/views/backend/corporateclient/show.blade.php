@@ -57,7 +57,7 @@
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col-md-12"> <strong>Address </strong> <span class="ml-10">{!! $data->address ?? '--' !!}} </span></div>
+                            <div class="col-md-12"> <strong>Address </strong> <span class="ml-10">{!! $data->address ?? '--' !!} </span></div>
                         </div>
                         <hr>
                         <div class="row">
