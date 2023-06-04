@@ -50,7 +50,7 @@
                     <a href="javascript:void(0)" class="menu-item {{ ( $route == 'settings' || $route == 'menu.index' || $route == 'sub-menu.index') ? 'active' : '' }}"><i class="fa fa-cog"></i>{{ __('Settings')}}</a>
                         <div class="submenu-content">
 
-                            @can('manage_owner')
+                            @can('manage_user')
                                 <a href="{{route('settings')}}" class="menu-item {{ ( $route == 'settings') ? 'active' : '' }}">{{ __('Site Settings')}}</a>
                             @endcan
 
@@ -66,31 +66,55 @@
                 </div>
 
 
-                {{-- <div class="nav-item {{ ($route == 'menu.index' || $route == 'menu.create' || $route == 'menu.edit' || $route == 'menu.show') ? 'active open' : '' }} has-sub">
-                    <a href="javascript:void(0)" class="menu-item {{ ( $route == 'menu.index' || $route == 'menu.create' || $route == 'menu.edit' || $route == 'menu.show' ) ? 'active' : '' }}"><i class="fa fa-bars"></i>{{ __('Menu')}}</a>
-                        <div class="submenu-content">
-                            @can('manage_user')
-                                    <a href="{{route('menu.index')}}" class="menu-item {{ ( $route == 'menu.index' || $route == 'menu.edit' || $route == 'menu.show') ? 'active' : '' }}">{{ __('Menu List')}}</a>
-                                @endcan
+                <div class="nav-item {{ ($route == 'our-services.index' || $route == 'our-services.create' || $route == 'our-services.edit' || $route == 'our-services.show') ? 'active open' : '' }} has-sub">
 
-                                @can('manage_user')
-                                    <a href="{{ route('menu.create') }}" class="menu-item {{ ( $route == 'menu.create' ) ? 'active' : '' }} ">{{ __('Menu Create')}}</a>
-                                @endcan
+                    <a href="javascript:void(0)" class="our-services-item {{ ( $route == 'our-services.index' || $route == 'our-services.create' || $route == 'our-services.edit' || $route == 'our-services.show') ? 'active' : '' }}"><i class="fa fa-wrench"></i>{{ __('Services')}}</a>
+                        <div class="submenu-content">
+
+                            @can('manage_user')
+                                <a href="{{ route('our-services.index') }}" class="menu-item {{ ($route == 'our-services.index' || $route == 'our-services.edit' || $route == 'our-services.show') ? 'active' : '' }}">{{ __('Services List')}}</a>
+                            @endcan
+
+                            @can('manage_user')
+                                <a href="{{ route('our-services.create') }}" class="menu-item {{ ( $route == 'our-services.create') ? 'active' : '' }}">{{ __('Create Service')}}</a>
+                            @endcan
+
                         </div>
                 </div>
 
-                <div class="nav-item {{ ($route == 'sub-menu.index' || $route == 'sub-menu.create' || $route == 'sub-menu.edit' || $route == 'sub-menu.show') ? 'active open' : '' }} has-sub">
-                    <a href="javascript:void(0)" class="sub-menu-item {{ ( $route == 'sub-menu.index' || $route == 'sub-menu.create' || $route == 'sub-menu.edit' || $route == 'sub-menu.show' ) ? 'active' : '' }}"><i class="fa fa-bars"></i>{{ __('Sub-Menu')}}</a>
-                        <div class="subsub-menu-content">
-                            @can('manage_user')
-                                    <a href="{{route('sub-menu.index')}}" class="sub-menu-item {{ ( $route == 'sub-menu.index' || $route == 'sub-menu.edit' || $route == 'sub-menu.show') ? 'active' : '' }}">{{ __('Sub-Menu List')}}</a>
-                                @endcan
 
-                                @can('manage_user')
-                                    <a href="{{ route('sub-menu.create') }}" class="sub-menu-item {{ ( $route == 'sub-menu.create' ) ? 'active' : '' }} ">{{ __('Sub-Menu Create')}}</a>
-                                @endcan
+
+                <div class="nav-item {{ ($route == 'corporate-client.index' || $route == 'corporate-client.create' || $route == 'corporate-client.edit' || $route == 'corporate-client.show') ? 'active open' : '' }} has-sub">
+
+                    <a href="javascript:void(0)" class="corporate-client-item {{ ( $route == 'corporate-client.index' || $route == 'corporate-client.create' || $route == 'corporate-client.edit' || $route == 'corporate-client.show') ? 'active' : '' }}"><i class="fa fa-users"></i>{{ __('Corporate Clients')}}</a>
+                        <div class="submenu-content">
+
+                            @can('manage_user')
+                                <a href="{{ route('corporate-client.index') }}" class="menu-item {{ ($route == 'corporate-client.index' || $route == 'corporate-client.edit' || $route == 'corporate-client.show') ? 'active' : '' }}">{{ __('Corporate List')}}</a>
+                            @endcan
+
+                            @can('manage_user')
+                                <a href="{{ route('corporate-client.create') }}" class="menu-item {{ ( $route == 'corporate-client.create') ? 'active' : '' }}">{{ __('Create Corporate')}}</a>
+                            @endcan
+
                         </div>
-                </div> --}}
+                </div>
+
+                <div class="nav-item {{ ($route == 'faq.index' || $route == 'faq.create' || $route == 'faq.edit' || $route == 'faq.show') ? 'active open' : '' }} has-sub">
+
+                    <a href="javascript:void(0)" class="faq-item {{ ( $route == 'faq.index' || $route == 'faq.create' || $route == 'faq.edit' || $route == 'faq.show') ? 'active' : '' }}"><i class="fa fa-question"></i>{{ __('Faq')}}</a>
+                        <div class="submenu-content">
+
+                            @can('manage_user')
+                                <a href="{{ route('faq.index') }}" class="menu-item {{ ($route == 'faq.index' || $route == 'faq.edit' || $route == 'faq.show') ? 'active' : '' }}">{{ __('Faq List')}}</a>
+                            @endcan
+
+                            @can('manage_user')
+                                <a href="{{ route('faq.create') }}" class="menu-item {{ ( $route == 'faq.create') ? 'active' : '' }}">{{ __('Create Faq')}}</a>
+                            @endcan
+
+                        </div>
+                </div>
 
         </div>
     </div>

@@ -1,17 +1,20 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RolesController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\BackEnd\SettingController;
+use App\Http\Controllers\BackEnd\FaqController;
 use App\Http\Controllers\BackEnd\MenuController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\BackEnd\SettingController;
 use App\Http\Controllers\BackEnd\SubMenuController;
+use App\Http\Controllers\BackEnd\ServicesController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\BackEnd\CorporateClientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -104,6 +107,18 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('sub-menu/update/{id}', [SubMenuController::class, "update"])->name('sub-menu.update');
     Route::delete('sub-menu/destory/{id}', [SubMenuController::class, "destroy"])->name('sub-menu.destroy');
     Route::get('sub-menu-status', [SubMenuController::class, "StatusChange"])->name('sub-menu-status');
+
+    //faq
+    Route::resource('faq', FaqController::class);
+    Route::get('faq-status', [FaqController::class, "StatusChange"])->name('faq-status');
+
+    //corporate client
+    Route::resource('corporate-client', CorporateClientController::class);
+    Route::get('client-status', [CorporateClientController::class, "StatusChange"])->name('client-status');
+
+    //services
+    Route::resource('our-services', ServicesController::class);
+    Route::get('services-status', [ServicesController::class, "StatusChange"])->name('services-status');
 
 });
 
